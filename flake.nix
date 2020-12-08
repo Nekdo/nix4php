@@ -39,6 +39,12 @@
               "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
             ];
           };
+          nixos = { ... }: {
+            imports = [
+              ./nix/modules/host-machine.nix
+              "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+            ];
+          };
         };
 
         packages = let
@@ -48,6 +54,7 @@
           });
         in {
           dev-vm = (nixos self.nixosConfigurations.${system}.dev).vm;
+          host-vm = (nixos self.nixosConfigurations.${system}.nixos).vm;
         };
       }
     );
