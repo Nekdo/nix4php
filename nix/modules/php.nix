@@ -19,48 +19,38 @@ in {
         "php_admin_flag[log_errors]" = true;
         "catch_workers_output" = true;
         };
+      phpPackage = pkgs.php;
       phpEnv."PATH" = lib.makeBinPath [ pkgs.php ];
     };
+
     services.nginx = {
       enable = true;
       virtualHosts.${domain}.locations."/" = {
-      root = dataDir;
-      extraConfig = ''
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:${config.services.phpfpm.pools.${app}.socket};
-        include ${pkgs.nginx}/conf/fastcgi_params;
-        include ${pkgs.nginx}/conf/fastcgi.conf;
-      '';
+        root = dataDir;
+        extraConfig = ''
+          fastcgi_split_path_info ^(.+\.php)(/.+)$;
+          fastcgi_pass unix:${config.services.phpfpm.pools.${app}.socket};
+          include ${pkgs.nginx}/conf/fastcgi_params;
+          include ${pkgs.nginx}/conf/fastcgi.conf;
+        '';
+
+        # onlySSL = true;
+        # enableACME = true;
       };
     };
 
-    users.mutableUsers = false;
     users.users = {
       ${app} = {
-        isSystemUser = true;
+        isNormalUser = true;
         createHome = true;
         home = dataDir;
         group  = app;
 
-        password = "heslo";
-
         openssh.authorizedKeys.keyFiles = [
-          ~/.ssh/id_rsa.pub
+          ../ssh-keys/honzk.pub
         ];
-      };
-
-      root = {
-        password = "heslo";
       };
     };
     users.groups.${app} = {};
-
-    # fileSystems.app-dir = {
-    #   mountPoint = dataDir;
-    #   device = "app";
-    #   fsType = "9p";
-    #   options = [ "trans=virtio" "version=9p2000.L" ];
-    # };
-    # networking.firewall.enable = false;
   };
 }
