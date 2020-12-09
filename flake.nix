@@ -12,19 +12,26 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-1803, flake-utils }:
+    let
+      supportedSystems = "x86_64-linux";
+      forAllSystems = f: (nixpkgs.lib.genAttrs supportedSystems (system: f system));
+    in
     flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
+        #  import nixpkgs {
+        #   inherit system;
+        #   overlays = [ self.overlays.${system}.legacy ];
+        # };
         pkgs-1803 = import nixpkgs-1803 { inherit system; };
 
-        php = pkgs-1803.php56;
-        # php = pkgs.php74;
-        node = pkgs.nodejs-10_x;
+        php56 = pkgs-1803.php56;
+        nodejs_8 = pkgs-1803.nodejs-8_x;
       in {
         devShell = pkgs.mkShell {
           buildInputs =  [
-            php
-            node
+            php56
+            nodejs_8
           ];
 
           shellHook = ''
@@ -55,6 +62,8 @@
         in {
           dev-vm = (nixos self.nixosConfigurations.${system}.dev).vm;
           host-vm = (nixos self.nixosConfigurations.${system}.nixos).vm;
+
+          all-pkg-versions = import ./nix/generate-versions.nix;
         };
       }
     );
