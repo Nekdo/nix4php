@@ -32,6 +32,8 @@
           buildInputs =  [
             php56
             nodejs_8
+
+            pkgs.jq
           ];
 
           shellHook = ''
@@ -63,8 +65,13 @@
           dev-vm = (nixos self.nixosConfigurations.${system}.dev).vm;
           host-vm = (nixos self.nixosConfigurations.${system}.nixos).vm;
 
-          all-pkg-versions = import ./nix/generate-versions.nix;
+          all-pkg-versions = import ./nix/generate-versions.nix { inherit nixpkgs system; };
         };
       }
-    );
+    ) // {
+      defaultTemplate = {
+        description = "Template for PHP project";
+        path = ./templates/project;
+      };
+    };
 }
