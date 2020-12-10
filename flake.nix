@@ -65,13 +65,17 @@
           dev-vm = (nixos self.nixosConfigurations.${system}.dev).vm;
           host-vm = (nixos self.nixosConfigurations.${system}.nixos).vm;
 
-          all-pkg-versions = import ./nix/generate-versions.nix { inherit nixpkgs system; };
+          # all-pkg-versions = import ./nix/generate-versions.nix { inherit nixpkgs system; };
         };
       }
     ) // {
-      defaultTemplate = {
-        description = "Template for PHP project";
-        path = ./templates/project;
+      defaultTemplate = self.templates.simple-project;
+
+      templates = {
+        simple-project = {
+          description = "Template for simple PHP project";
+          path = ./templates/project;
+        };
       };
     };
 }
