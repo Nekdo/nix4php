@@ -33,7 +33,7 @@
       };
 
       packages."x86_64-linux" = {
-        dev-vm = nixpkgs.lib.nixosSystem self.nixosConfigurations.dev;
+        dev-vm = self.nixosConfigurations.dev.build.system.vm;
       };
     }
   );
