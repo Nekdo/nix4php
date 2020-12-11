@@ -41,7 +41,7 @@
       }
     ) // {
       nixosModules = {
-          dev = import ./nix/modules/dev-machine.nix {};
+          dev = ./nix/modules/dev-machine.nix;
           # nixos = { ... }: {
           #   imports = [
           #     ./nix/modules/host-machine.nix
