@@ -15,7 +15,6 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ self.overlay ];
         };
       in {
         devShell = pkgs.mkShell {
