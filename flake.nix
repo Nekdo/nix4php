@@ -27,16 +27,6 @@
           '';
         };
 
-        nixosModules = {
-          dev = import ./nix/modules/dev-machine.nix {};
-          # nixos = { ... }: {
-          #   imports = [
-          #     ./nix/modules/host-machine.nix
-          #     "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
-          #   ];
-          # };
-        };
-
         # packages = let
         #   nixos = c: (import "${nixpkgs}/nixos" {
         #     inherit system;
@@ -50,6 +40,16 @@
         # };
       }
     ) // {
+      nixosModules = {
+          dev = import ./nix/modules/dev-machine.nix {};
+          # nixos = { ... }: {
+          #   imports = [
+          #     ./nix/modules/host-machine.nix
+          #     "${nixpkgs}/nixos/modules/profiles/qemu-guest.nix"
+          #   ];
+          # };
+        };
+
       defaultTemplate = self.templates.simple-project;
 
       templates = {
