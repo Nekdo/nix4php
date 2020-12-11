@@ -1,11 +1,11 @@
 { pkgs, lib, config, options, ... }:
 let
-  cfg = config.php-dev;
+  cfg = config.nix4php;
   app = cfg.appName;
   domain = cfg.domain;
   dataDir = "/srv/http/${domain}";
 in {
-  options.php-dev = {
+  options.nix4php = {
     appName = lib.mkOption {
       type = lib.types.str;
       example = "phpdemo";

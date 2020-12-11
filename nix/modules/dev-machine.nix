@@ -14,7 +14,7 @@
     users.mutableUsers = false;
 
     users.users.root = {
-      openssh.authorizedKeys.keyFiles = config.php-dev.sshAuthorizedKeyFiles;
+      openssh.authorizedKeys.keyFiles = config.nix4php.sshAuthorizedKeyFiles;
     };
 
     networking.firewall.enable = false;
