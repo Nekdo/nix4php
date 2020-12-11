@@ -33,7 +33,7 @@
       };
 
       packages."x86_64-linux" = {
-        dev-vm = self.nixosConfigurations.dev.build.system.vm;
+        dev-vm = self.nixosConfigurations.dev.system.build.vm;
       };
     }
   );
