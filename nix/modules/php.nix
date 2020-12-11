@@ -19,7 +19,7 @@ in {
     };
 
     sshAuthorizedKeyFiles = lib.mkOption {
-      type = lib.types.list lib.types.path;
+      type = lib.types.listOf lib.types.path;
       description = "Public keys of users that will be able to login as user `appName`";
     };
   };

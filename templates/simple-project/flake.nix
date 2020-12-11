@@ -26,7 +26,7 @@
         dev = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            nix4php.nixosModules.php-dev-machine
+            nix4php.nixosModules.phpDevMachine
             ./nix/modules/nix4php.nix
           ];
         };
