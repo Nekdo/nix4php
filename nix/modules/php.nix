@@ -59,6 +59,18 @@ in {
       };
     };
 
+    systemd.services."${app}-mkdir" = let
+      service = "nginx.service";
+    in {
+      script = "chmod +rx /srv && chmod +rx /srv/http";
+      requiredBy = [ service ];
+      before = [ service ];
+      after = [ "network.target" ];
+      serviceConfig = {
+        Type = "simple";
+      };
+    };
+
     users.users = {
       ${app} = {
         isNormalUser = true;
