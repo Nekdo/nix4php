@@ -26,14 +26,14 @@
         dev = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
-            nix4php.nixosModules.dev
+            nix4php.nixosModules.php-dev-machine
             ./nix/modules/nix4php.nix
           ];
         };
       };
 
       packages."x86_64-linux" = {
-        dev-vm = self.nixosConfigurations.dev.system.build.vm;
+        dev-vm = self.nixosConfigurations.dev.config.system.build.vm;
       };
     }
   );

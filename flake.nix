@@ -41,7 +41,7 @@
       }
     ) // {
       nixosModules = {
-          dev = ./nix/modules/dev-machine.nix;
+          php-dev-machine = ./nix/modules/dev-machine.nix;
           # nixos = { ... }: {
           #   imports = [
           #     ./nix/modules/host-machine.nix
