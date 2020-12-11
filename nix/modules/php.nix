@@ -1,9 +1,29 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, options, ... }:
 let
-  app = "phpdemo";
-  domain = "${app}.example.com";
+  cfg = config.php-dev;
+  app = cfg.appName;
+  domain = cfg.domain;
   dataDir = "/srv/http/${domain}";
 in {
+  options.php-dev = {
+    appName = lib.mkOption {
+      type = lib.types.str;
+      example = "phpdemo";
+      description = "Name of the application";
+    };
+
+    domain = lib.mkOption {
+      type = lib.types.str;
+      example = "phpdemo.example.com";
+      description = "The domain name of the application";
+    };
+
+    sshAuthorizedKeyFiles = lib.mkOption {
+      type = lib.types.list lib.types.path;
+      description = "Public keys of users that will be able to login as user `appName`";
+    };
+  };
+
   config = {
     services.phpfpm.pools.${app} = {
       user = app;
@@ -18,7 +38,7 @@ in {
         "php_admin_value[error_log]" = "stderr";
         "php_admin_flag[log_errors]" = true;
         "catch_workers_output" = true;
-        };
+      };
       phpPackage = pkgs.php;
       phpEnv."PATH" = lib.makeBinPath [ pkgs.php ];
     };
@@ -46,9 +66,7 @@ in {
         home = dataDir;
         group  = app;
 
-        openssh.authorizedKeys.keyFiles = [
-          ../ssh-keys/honzk.pub
-        ];
+        openssh.authorizedKeys.keyFiles = cfg.sshAuthorizedKeyFiles;
       };
     };
     users.groups.${app} = {};

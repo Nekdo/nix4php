@@ -74,7 +74,7 @@
       templates = {
         simple-project = {
           description = "Template for simple PHP project";
-          path = ./templates/project;
+          path = ./templates/simple-project;
         };
       };
     };

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, config, ... }: {
   imports = [
     ./php.nix
     ./mysql.nix
@@ -13,11 +13,8 @@
 
     users.mutableUsers = false;
 
-
     users.users.root = {
-      openssh.authorizedKeys.keyFiles = [
-        ../ssh-keys/honzk.pub
-      ];
+      openssh.authorizedKeys.keyFiles = config.php-dev.sshAuthorizedKeyFiles;
     };
 
     networking.firewall.enable = false;
